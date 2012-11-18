@@ -4,13 +4,19 @@ function update
 	temp=$(mktemp -d)
 	tar xzf "packagecache/$filename" -C "$temp"
 
-	if [[ ! -f "$directory_game/steam.inf" ]]; then
-		echo -e "${red}Error: ${cyan}steam.inf$red missing in '${yellow}$directory_game$red', are you sure this is the right directory?$reset"
-		return "-1"
+	sourcemod_dirname="sourcemod"
+
+	if [[ ${options[smdir]} ]]; then
+		sourcemod_dirname="${options[smdir]}"
 	fi
 
-	if [[ ${options[install]} != "1" && ! -d "$directory_game/addons/sourcemod" ]]; then
-		echo -e "${red}Error: directory '${yellow}addons/sourcemod$red' not found, ${cyan}try with --install$reset."
+	if [[ ! -f "$directory_game/steam.inf" ]]; then
+		echo -e "${red}Error: ${cyan}steam.inf$red missing in '${yellow}$directory_game$red', are you sure this is the right directory?$reset"
+		return 0
+	fi
+
+	if [[ ${options[install]} != "1" && ! -d "$directory_game/addons/$sourcemod_dirname" ]]; then
+		echo -e "${red}Error: directory '${yellow}addons/$sourcemod_dirname$red' not found, ${cyan}try with --install$reset."
 		return 0
 	fi
 
@@ -23,9 +29,15 @@ function update
 	if [[ ${options[install]} == "1" ]]; then
 		echo -e "${cyan}Installing Sourcemod now...$reset"
 
+		# If an other sourcemod directory name has been
+		# specified, rename it from the stock name.
+		if [[ $sourcemod_dirname != "sourcemod" ]]; then
+			mv "$temp/addons/sourcemod" "$temp/addons/$sourcemod_dirname"
+		fi
+
 		cp -R "$temp/"* "$directory_game"
 
-		echo -e "$green[SUCCESS] Sourcemod installed into '${yellow}$directory_game/addons/sourcemod$green'.$reset"
+		echo -e "$green[SUCCESS] Sourcemod installed into '${yellow}$directory_game/addons/$sourcemod_dirname$green'.$reset"
 	else
 		echo -e "${cyan}Updating Sourcemod now...$reset"
 
@@ -42,7 +54,7 @@ function update
 		# translations - overwrite
 
 		directory_source="$temp/addons/sourcemod"
-		directory_target="$directory_game/addons/sourcemod"
+		directory_target="$directory_game/addons/$sourcemod_dirname"
 		attributes="--checksum"
 
 		echo -e "${cyan}Updating bin/$reset"
@@ -89,7 +101,7 @@ function update
 		owner_group=`stat --format="%u:%g" "$directory_game"`
 		echo -en "${cyan}Fixing permissions using $owner_group from game directory...$reset"
 
-		chown -R $owner_group "$directory_game/addons/sourcemod"
+		chown -R $owner_group "$directory_game/addons/$sourcemod_dirname"
 		chown -R $owner_group "$directory_game/addons/metamod/sourcemod.vdf"
 		chown -R $owner_group "$directory_game/cfg/sourcemod"
 

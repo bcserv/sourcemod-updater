@@ -61,6 +61,12 @@ Reads the owner and the group of the game directory of the srcds after the updat
 and applies them recursively to the sourcemod files.
 This is needed if the update is executed by root and the srcds doesn't run as root.
 
+#### --smdir
+
+Sets an alternative name for the addons/sourcemod directory.
+If you are using srcds forks and need multiple sourcemod installations,
+you have to set this.
+
 ### Examples
 ```shell
 ./update.sh /game/css/cstrike

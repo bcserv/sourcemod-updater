@@ -2,7 +2,7 @@ function help
 {
 	echo -e "${cyan}[ USAGE ]$reset"
 	echo ""
-	echo -e "${cyan}Syntax:$reset $0 <game_dir> [<optional Package URL> --snapshot-stable --snapshot-dev --install --dontask --fixpermissions]"
+	echo -e "${cyan}Syntax:$reset $0 <game_dir> [<optional Package URL> --snapshot-stable --snapshot-dev --install --dontask --fixpermissions --smdir=\"\"]"
 	echo ""
 	echo -e "${cyan}Options:$reset"
 	echo -e "--snapshot-stable    Updates or installs the latest Sourcemod STABLE snapshot."
@@ -10,6 +10,7 @@ function help
 	echo -e "--install            Installs sourcemod instead of updating."
 	echo -e "--dontask            Never ask for anything during execution."
 	echo -e "--fixpermissions     Fix file permissions afterwards."
+	echo -e "--smdir=""           Sets an alternative name for the addons/sourcemod directory."
 	echo ""
 	echo -e "${cyan}Examples:$reset"
 	echo -e "$0 /game/css/cstrike"

@@ -7,7 +7,14 @@ function read_options
 		if [[ $argument == --* ]]; then
 			option=${argument:2}
 
-			options["$option"]=1;
+			if [[ $option == *=* ]]; then
+				option_name=${option%=*}
+				option_value=${option#*=}
+
+				options["$option_name"]=$option_value;
+			else
+				options["$option"]=1;
+			fi
 		fi
 	done
 

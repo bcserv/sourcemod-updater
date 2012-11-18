@@ -1,0 +1,4 @@
+function help
+{
+	echo "Help !"
+}

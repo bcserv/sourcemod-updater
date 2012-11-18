@@ -1,0 +1,15 @@
+function read_options
+{
+	for argument in "$@"
+	do
+		# if it starts with --,
+		# then it's an option
+		if [[ $argument == --* ]]; then
+			option=${argument:2}
+
+			options["$option"]=1;
+		fi
+	done
+
+	export options
+}

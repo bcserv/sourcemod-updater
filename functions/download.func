@@ -1,0 +1,58 @@
+function download
+{
+	if [[ $url_sourcemod_package == "" ]]; then
+		echo -e "You didn't specify an URL as argument to download sourcemod from."
+		echo -e "I will try to get the latest sourcemod release automatically..."
+		echo ""
+
+		if [[ ${options[snapshot-stable]} == "1" ]]; then
+			sourcemod_mirror="$SNAPSHOT_STABLE_MIRROR"
+			search_pattern="$SNAPSHOT_STABLE_SEARCHPATTER"
+		else
+			if [[ ${options[snapshot-dev]} == "1" ]]; then
+				sourcemod_mirror="$SNAPSHOT_DEV_MIRROR"
+				search_pattern="$SNAPSHOT_DEV_SEARCHPATTER"
+			else
+				sourcemod_mirror="$STABLE_MIRROR"
+				search_pattern="$STABLE_SEARCHPATTER"
+			fi
+		fi
+
+		url_sourcemod_package=`lynx -dump "$sourcemod_mirror" | egrep -o "$search_pattern" | tail -1`
+
+		if [[ $url_sourcemod_package == "" ]]; then
+			echo -e "${red}Error: Scanning for the latest sourcemod package failed.$reset"
+
+			if [[ ${options[dontask]} != "1" ]]; then
+				echo -e "${cyan}Please enter a direct URL for downloading Sourcemod:$reset"
+				read url_sourcemod_package
+			fi
+
+			if [[ $url_sourcemod_package == "" ]]; then
+				echo -e "${red}URL empty, aborting.$reset"
+				return 0
+			fi
+		fi
+	else
+		package_url="$1"
+	fi
+
+
+	filename=$(basename "$url_sourcemod_package")
+
+	if [[ $filename != *.tar.gz ]]; then
+		echo -e "${red}Error: File doesn't end with '.tar.gz', aborting.$reset"
+		return 0
+	fi
+
+	echo -e "${green}Found sourcemod package:$reset"
+	echo -e "${cyan}URL: $yellow$url_sourcemod_package$reset"
+	echo -e "Trying to download file $yellow$filename$reset now.$reset"
+	echo ""
+
+	wget --directory-prefix="packagecache" --no-clobber --verbose "$url_sourcemod_package"
+
+	echo -e "${green}File downloaded successfully :)$reset"
+
+	return 1
+}

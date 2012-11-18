@@ -1,0 +1,100 @@
+function update
+{
+	# Ceate a temporary directory
+	temp=$(mktemp -d)
+	tar xzf "packagecache/$filename" -C "$temp"
+
+	if [[ ! -f "$directory_game/steam.inf" ]]; then
+		echo -e "${red}Error: ${cyan}steam.inf$red missing in '${yellow}$directory_game$red', are you sure this is the right directory?$reset"
+		return "-1"
+	fi
+
+	if [[ ${options[install]} != "1" && ! -d "$directory_game/addons/sourcemod" ]]; then
+		echo -e "${red}Error: directory '${yellow}addons/sourcemod$red' not found, ${cyan}try with --install$reset."
+		return 0
+	fi
+
+	# Validate sourcemod package files
+	if [[ ! -d "$temp/addons/sourcemod" ]]; then
+		echo -e "${red}Error: Sourcemod package corrupt or not compatible, '${yellow}addons/sourcemod$red' doesn't exist."
+		return 0
+	fi
+
+	if [[ ${options[install]} == "1" ]]; then
+		echo -e "${cyan}Installing Sourcemod now...$reset"
+
+		cp -R "$temp/"* "$directory_game"
+
+		echo -e "$green[SUCCESS] Sourcemod installed into '${yellow}$directory_game/addons/sourcemod$green'.$reset"
+	else
+		echo -e "${cyan}Updating Sourcemod now...$reset"
+
+		# Update Sourcemod
+
+		# bin          - rm, mv
+		# configs      - rm geoip, sql-init-scripts; mv
+		# data         - don't touch
+		# extensions   - overwrite
+		# gamedata     - rm core.games, sdktools.games, sm-*.txt; overwrite
+		# logs         - don't touch
+		# plugins      - replace & update in / and disabled/, new plugins -> disabled/
+		# scripting    - overwrite
+		# translations - overwrite
+
+		directory_source="$temp/addons/sourcemod"
+		directory_target="$directory_game/addons/sourcemod"
+		attributes="--checksum"
+
+		echo -e "${cyan}Updating bin/$reset"
+		rsync --recursive --delete-during $attributes --out-format="%o %n" "$directory_source/bin/" "$directory_target/bin/"
+
+		echo -e "${cyan}Updating configs/$reset"
+		rsync --recursive --delete-during $attributes --out-format="%o %n" "$directory_source/configs/geoip/" "$directory_target/configs/geoip/"
+		rsync --recursive --delete-during $attributes --out-format="%o %n" "$directory_source/configs/sql-init-scripts/" "$directory_target/configs/sql-init-scripts/"
+
+		echo -e "${cyan}Updating extensions/$reset"
+		rsync --recursive $attributes --out-format="%o %n" "$directory_source/extensions/" "$directory_target/extensions/"
+
+		echo -e "${cyan}Updating gamedata/$reset"
+		rsync $attributes --out-format="%o %n" "$directory_source/gamedata/"* "$directory_target/gamedata/" | grep -v "skipping directory "
+		rsync --recursive --delete-during $attributes --out-format="%o %n" "$directory_source/gamedata/sdktools.games/" "$directory_target/gamedata/sdktools.games/"
+		rsync --recursive --delete-during $attributes --out-format="%o %n" "$directory_source/gamedata/core.games/" "$directory_target/gamedata/core.games/"
+
+		echo -e "${cyan}Updating plugins/$reset"
+		for f in $(find "$directory_source/plugins/" -name '*.smx'); do
+			plugin=$(basename "$f")
+
+			# If the plugin exists in plugins/, then copy it there
+			if [[ -f "$directory_target/plugins/$plugin" ]]; then
+				rsync $attributes --out-format="%o %n" "$f" "$directory_target/plugins/$plugin"
+			else
+				# otherwise copy it to plugins/disabled/
+				rsync $attributes --out-format="%o %n" "$f" "$directory_target/plugins/disabled/$plugin"
+			fi
+		done
+
+		echo -e "${cyan}Updating scripting/$reset"
+		rsync --recursive $attributes --out-format="%o %n" "$directory_source/scripting/" "$directory_target/scripting/"
+
+		echo -e "${cyan}Updating translations/$reset"
+		rsync --recursive $attributes --out-format="%o %n" "$directory_source/translations/" "$directory_target/translations/"
+
+		echo -e "${cyan}Updating *.txt's$reset"
+		rsync $attributes --out-format="%o %n" "$directory_source/"* "$directory_target/" | grep -v "skipping directory "
+
+		echo -e "$green[SUCCESS] Sourcemod updated.$reset"
+	fi
+
+	if [[ ${options[fixpermissions]} == "1" ]]; then
+		owner_group=`stat --format="%u:%g" "$directory_game"`
+		echo -en "${cyan}Fixing permissions using $owner_group from game directory...$reset"
+
+		chown -R $owner_group "$directory_game/addons/sourcemod"
+		chown -R $owner_group "$directory_game/addons/metamod/sourcemod.vdf"
+		chown -R $owner_group "$directory_game/cfg/sourcemod"
+
+		echo -e "${cyan}done$reset"
+	fi
+
+	return 1
+}

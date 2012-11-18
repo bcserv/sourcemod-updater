@@ -47,6 +47,7 @@ Updates or installs the latest Sourcemod DEV snapshot.
 #### --install
 
 Installs sourcemod instead of updating.
+CAUTION: this will overwrite any existing sourcemod files.
 
 #### --dontask
 

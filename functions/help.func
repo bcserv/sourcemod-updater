@@ -1,4 +1,22 @@
 function help
 {
-	echo "Help !"
+	echo -e "${cyan}[ USAGE ]$reset"
+	echo ""
+	echo -e "${cyan}Syntax:$reset $0 <game_dir> [<optional Package URL> --snapshot-stable --snapshot-dev --install --dontask --fixpermissions]"
+	echo ""
+	echo -e "${cyan}Options:$reset"
+	echo -e "--snapshot-stable    Updates or installs the latest Sourcemod STABLE snapshot."
+	echo -e "--snapshot-dev       Updates or installs the latest Sourcemod DEV snapshot."
+	echo -e "--install            Installs sourcemod instead of updating."
+	echo -e "--dontask            Never ask for anything during execution."
+	echo -e "--fixpermissions     Fix file permissions afterwards."
+	echo ""
+	echo -e "${cyan}Examples:$reset"
+	echo -e "$0 /game/css/cstrike"
+	echo -e "$0 /srcds/css/cstrike --install --fixpermissions # Install sourcemod and fix the file permissions afterwards"
+	echo -e "$0 /srcds/css/cstrike --snapshot-stable          # Update sourcemod to the latest STABLE snapshot"
+	echo -e "$0 /srcds/css/cstrike --snapshot-dev             # Update sourcemod to the latest DEV snapshot"
+	echo -e "$0 /srcds/css/cstrike --dontask                  # Never ask for anything"
+
+	exit 1
 }

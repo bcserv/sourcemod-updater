@@ -30,9 +30,9 @@ if [[ $2 != "" && ${2:0:2} != "--" ]]; then
 	url_sourcemod_package="$2"
 fi
 
-if [[ $directory_game == "" ]]; then
-	echo -e "${red}Error: You have to specify a path to your srcds game directory (example: /path_to/css/cstrike)$reset"
-	exit -1
+if [[ ${options[help]} == "1" || $directory_game == "" ]]; then
+	help
+	exit 0
 fi
 
 download

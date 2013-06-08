@@ -71,6 +71,7 @@ function update
 		rsync $attributes --out-format="%o %n" "$directory_source/gamedata/"* "$directory_target/gamedata/" | grep -v "skipping directory "
 		rsync --recursive --delete-during $attributes --out-format="%o %n" "$directory_source/gamedata/sdktools.games/" "$directory_target/gamedata/sdktools.games/"
 		rsync --recursive --delete-during $attributes --out-format="%o %n" "$directory_source/gamedata/core.games/" "$directory_target/gamedata/core.games/"
+		rsync --recursive --delete-during $attributes --out-format="%o %n" "$directory_source/gamedata/sm-cstrike.games/" "$directory_target/gamedata/sm-cstrike.games/"
 
 		echo -e "${cyan}Updating plugins/$reset"
 		for f in $(find "$directory_source/plugins/" -name '*.smx'); do

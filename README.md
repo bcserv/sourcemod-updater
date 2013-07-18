@@ -3,7 +3,7 @@ Sourcemod updater
 
 Updates or installs the latest Sourcemod stable release or snapshots.
 
-![alt text](http://berni.bcserv.eu/uploads/images/2012-11-18_18-57-37.png "Screenshot")
+![alt text](http://www.bcserv.eu/downloads/2012-11-18_18-57-37.png "Screenshot")
 
 # Features
 

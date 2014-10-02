@@ -3,8 +3,8 @@
 STABLE_MIRROR="http://www.gsptalk.com/mirror/sourcemod/"
 STABLE_SEARCHPATTER="http:.*sourcemod.*linux.*"
 
-SNAPSHOT_STABLE_MIRROR="http://www.sourcemod.net/smdrop/1.5/"
+SNAPSHOT_STABLE_MIRROR="http://www.sourcemod.net/smdrop/1.6/"
 SNAPSHOT_STABLE_SEARCHPATTER="http:.*sourcemod-.*-linux.*"
 
-SNAPSHOT_DEV_MIRROR="http://www.sourcemod.net/smdrop/1.6/"
+SNAPSHOT_DEV_MIRROR="http://www.sourcemod.net/smdrop/1.7/"
 SNAPSHOT_DEV_SEARCHPATTER="http:.*sourcemod-.*-linux.*"

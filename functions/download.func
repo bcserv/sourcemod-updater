@@ -18,7 +18,16 @@ function download
 			fi
 		fi
 
-		url_sourcemod_package=`lynx -dump "$sourcemod_mirror" | egrep -o "$search_pattern" | tail -1`
+		sourcemod_latest_basename=`wget -qO- "$sourcemod_mirror/sourcemod-latest-linux"`
+		
+		if [[ ${#sourcemod_latest_basename} -gt "0" ]]; then
+			url_sourcemod_package="$sourcemod_mirror$sourcemod_latest_basename"
+		elif hash lynx 2>/dev/null; then
+			echo "Attempting to scrape the download mirror for the package using lynx..."
+			url_sourcemod_package=`lynx -dump "$sourcemod_mirror" | egrep -o "$search_pattern" | tail -1`
+		else
+			echo -e "${red}Error: Could not retrieve latest version of Sourcemod.  Please install lynx for scraping.$reset"
+		fi
 
 		if [[ $url_sourcemod_package == "" ]]; then
 			echo -e "${red}Error: Scanning for the latest sourcemod package failed.$reset"

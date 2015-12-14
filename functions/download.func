@@ -13,8 +13,8 @@ function download
 				sourcemod_mirror="$SNAPSHOT_DEV_MIRROR"
 				search_pattern="$SNAPSHOT_DEV_SEARCHPATTER"
 			else
-				sourcemod_mirror="$STABLE_MIRROR"
-				search_pattern="$STABLE_SEARCHPATTER"
+				sourcemod_mirror="$SNAPSHOT_STABLE_MIRROR"
+				search_pattern="$SNAPSHOT_STABLE_SEARCHPATTER"
 			fi
 		fi
 

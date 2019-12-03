@@ -99,6 +99,6 @@ full replace means also deleting files that are not in the update package
 SNAPSHOT_STABLE_MIRROR="http://www.sourcemod.net/smdrop/1.10/"
 SNAPSHOT_STABLE_SEARCHPATTER="http:.*sourcemod-.*-linux.*gz"
 
-SNAPSHOT_DEV_MIRROR="http://www.sourcemod.net/smdrop/1.10/"
+SNAPSHOT_DEV_MIRROR="http://www.sourcemod.net/smdrop/1.11/"
 SNAPSHOT_DEV_SEARCHPATTER="http:.*sourcemod-.*-linux.*gz"
 ```

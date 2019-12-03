@@ -3,7 +3,7 @@ Sourcemod updater
 
 Updates or installs the latest Sourcemod stable release or snapshots.
 
-![alt text](http://www.bcserv.eu/downloads/2012-11-18_18-57-37.png "Screenshot")
+![alt text](https://i.imgur.com/5vymVpT.png "Screenshot")
 
 # Features
 
@@ -96,12 +96,9 @@ full replace means also deleting files that are not in the update package
 ```bash
 # The source code of this page will be searched for the latest sourcemod package
 # We assume that the last one is the latest
-STABLE_MIRROR="http://sourcemod.steamfriends.com/files/"
-STABLE_SEARCHPATTER="http:.*sourcemod.*linux.*"
+SNAPSHOT_STABLE_MIRROR="http://www.sourcemod.net/smdrop/1.10/"
+SNAPSHOT_STABLE_SEARCHPATTER="http:.*sourcemod-.*-linux.*gz"
 
-SNAPSHOT_STABLE_MIRROR="http://www.sourcemod.net/smdrop/1.4/"
-SNAPSHOT_STABLE_SEARCHPATTER="http:.*sourcemod-.*-linux.*"
-
-SNAPSHOT_DEV_MIRROR="http://www.sourcemod.net/smdrop/1.5/"
-SNAPSHOT_DEV_SEARCHPATTER="http:.*sourcemod-.*-linux.*"
+SNAPSHOT_DEV_MIRROR="http://www.sourcemod.net/smdrop/1.10/"
+SNAPSHOT_DEV_SEARCHPATTER="http:.*sourcemod-.*-linux.*gz"
 ```

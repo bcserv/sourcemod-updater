@@ -5,6 +5,11 @@ Updates or installs the latest Sourcemod stable release or snapshots.
 
 ![alt text](https://i.imgur.com/5vymVpT.png "Screenshot")
 
+# Bonus - MetaMod Source
+If you would like to getting MMSource(MetaMod) Updater
+
+Find it here: [MMSource](https://github.com/mikkeldk/mmsource-updater)
+
 # Features
 
 * Installs/updates stable releases or snapshots
